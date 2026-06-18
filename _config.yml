@@ -1,23 +1,16 @@
 title: CalcNest
 description: Free online calculators for everyday US finance and lifestyle needs.
-url: "https://claritystack.github.io" # change to your GitHub Pages URL
+url: "https://claritystack.github.io"
 baseurl: "/calcnest"
 
-# Build
 markdown: kramdown
 permalink: /:title/
 
-# SEO
 lang: en
 timezone: America/New_York
 
-# Collections
-collections:
-  calculators:
-    output: true
-    permalink: /:name/
+collections_dir: blog
 
-# Exclude from build
 exclude:
   - README.md
   - Gemfile
