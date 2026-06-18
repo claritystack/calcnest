@@ -1,0 +1,18 @@
+---
+layout: default
+title: "Blog"
+description: "Tips, guides, and explainers on personal finance, tipping, and everyday money decisions for US readers."
+---
+
+<div class="blog-list">
+  <div class="blog-hero">
+    <h1>Blog</h1>
+  </div>
+  {% for post in site.posts %}
+  <a href="{{ post.url }}" class="post-card">
+    <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+    <div class="post-title">{{ post.title }}</div>
+    <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 24 }}</div>
+  </a>
+  {% endfor %}
+</div>
