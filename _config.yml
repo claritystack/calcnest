@@ -8,7 +8,7 @@ plugins:
   - jekyll-seo-tag
 
 markdown: kramdown
-permalink: /calcnest/blog/:slug/
+permalink: /blog/:slug/
 
 lang: en
 timezone: America/New_York
@@ -16,7 +16,7 @@ timezone: America/New_York
 collections:
   calculators:
     output: true
-    permalink: /calcnest/:path/
+    permalink: /:path/
 
 exclude:
   - README.md
