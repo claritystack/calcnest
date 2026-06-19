@@ -13,6 +13,11 @@ timezone: America/New_York
 
 collections_dir: blog
 
+collections:
+  calculators:
+    output: true
+    permalink: /calcnest/:path/
+
 exclude:
   - README.md
   - Gemfile
