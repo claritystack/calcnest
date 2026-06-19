@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Calculator – CalcNest</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #0f1117;
+    --border: #1e2638;
+    --border2: #252d42;
+    --text: #e8eaf0;
+    --text2: #8892aa;
+    --text3: #6c7a9c;
+    --accent: #6c63ff;
+    --accent2: #48cfad;
+    --card-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    --result-bg: linear-gradient(135deg, #1a1f35, #161b2a);
+    --table-head: #0f1117;
+    --toggle-bg: #1e2638;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f6fb;
+    --bg2: #ffffff;
+    --bg3: #f0f2f8;
+    --border: #e2e6f0;
+    --border2: #d0d6e8;
+    --text: #1a1d2e;
+    --text2: #4a5270;
+    --text3: #7a85a8;
+    --accent: #5b52f0;
+    --accent2: #2fb89a;
+    --card-shadow: 0 4px 24px rgba(91,82,240,0.08);
+    --result-bg: linear-gradient(135deg, #f0eeff, #e8f8f4);
+    --table-head: #f4f6fb;
+    --toggle-bg: #e2e6f0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* Header */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  nav a {
+    color: var(--text3);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
+
+  /* Theme toggle */
+  .toggle {
+    width: 44px; height: 24px;
+    background: var(--toggle-bg);
+    border-radius: 99px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    transition: transform 0.3s;
+  }
+  [data-theme="light"] .toggle::after { transform: translateX(20px); }
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text3); }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 52px 20px 36px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .hero p { color: var(--text2); font-size: 1.05rem; line-height: 1.6; }
+
+  /* Layout */
+  .page { max-width: 720px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* Card */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s, border 0.3s;
+  }
+
+  .field { margin-bottom: 24px; }
+  .field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text3);
+    margin-bottom: 10px;
+  }
+  .input-wrap { position: relative; }
+  .input-prefix {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.05rem;
+    pointer-events: none;
+  }
+  input[type="number"] {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 13px 16px 13px 34px;
+    font-size: 1.05rem;
+    color: var(--text);
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s, background 0.3s;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type="number"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+  }
+  .no-prefix input[type="number"] { padding-left: 16px; }
+
+  /* Tip buttons */
+  .tip-btns { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 12px; }
+  .tip-btn {
+    padding: 10px 4px;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    background: var(--bg3);
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .tip-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tip-btn.active {
+    background: linear-gradient(135deg, var(--accent), #5a54d4);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(108,99,255,0.35);
+  }
+
+  /* Stepper */
+  .stepper {
+    display: flex; align-items: center;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .step-btn {
+    width: 44px; height: 44px;
+    background: none; border: none;
+    color: var(--accent);
+    font-size: 1.4rem; font-weight: 300;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .step-btn:hover { background: var(--border); }
+  #peopleVal {
+    min-width: 48px; text-align: center;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--text);
+    border-left: 1px solid var(--border2);
+    border-right: 1px solid var(--border2);
+    height: 44px; line-height: 44px;
+  }
+
+  /* Results */
+  .results {
+    background: var(--result-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 8px 24px;
+    margin: 28px 0 24px;
+    transition: background 0.3s;
+  }
+  .result-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { color: var(--text3); font-size: 0.95rem; }
+  .result-val { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .result-row.highlight .result-label { color: var(--text2); font-size: 1rem; }
+  .result-row.highlight .result-val {
+    font-size: 1.7rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #resetBtn {
+    width: 100%; padding: 12px;
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    color: var(--text3);
+    font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; font-weight: 500;
+  }
+  #resetBtn:hover { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.05); }
+
+  /* Section heading */
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Tip guide cards */
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .guide-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: background 0.3s;
+  }
+  .guide-item .service { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .guide-item .amount {
+    font-size: 0.95rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Prose */
+  .prose h2 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 32px 0 10px; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose p { color: var(--text2); line-height: 1.8; margin-bottom: 14px; font-size: 0.96rem; }
+  .prose strong { color: var(--text); }
+
+  /* Example box */
+  .example-box {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 14px 0 20px;
+    font-size: 0.92rem;
+    color: var(--text2);
+    line-height: 1.9;
+  }
+  .example-box .ex-title { font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .example-box span { color: var(--accent); font-weight: 600; }
+
+  /* FAQ */
+  .faq { margin-bottom: 28px; }
+  .faq-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .faq-q {
+    width: 100%; background: none; border: none;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.97rem; font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-icon { font-size: 1.1rem; color: var(--accent); flex-shrink: 0; transition: transform 0.25s; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+    font-size: 0.93rem; color: var(--text2); line-height: 1.75;
+    padding: 0 20px;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding: 0 20px 16px; }
+
+  /* World tipping */
+  .world-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .world-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: background 0.3s;
+  }
+  .world-card .flag { font-size: 1.6rem; margin-bottom: 8px; }
+  .world-card .country { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+  .world-card .desc { font-size: 0.84rem; color: var(--text2); line-height: 1.6; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 20px;
+    text-align: center;
+    color: var(--text3);
+    font-size: 0.85rem;
+    background: var(--bg2);
+    transition: background 0.3s;
+  }
+  footer a { color: var(--text3); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 580px) {
+    .hero h1 { font-size: 1.9rem; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .world-grid { grid-template-columns: 1fr 1fr; }
+    .tip-btns { grid-template-columns: repeat(5,1fr); }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">CalcNest</a>
+  <div class="header-right">
+    <nav>
+      <a href="#">Calculators</a>
+      <a href="#">Blog</a>
+    </nav>
+    <div class="toggle-wrap">
+      <span id="themeLabel">🌙</span>
+      <button class="toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Tip Calculator</h1>
+  <p>Calculate your tip and split the bill instantly — for restaurants, taxis, salons, hotels, and more.</p>
+</div>
+
+<div class="page">
+
+  <!-- Calculator -->
+  <div class="card">
+    <div class="field">
+      <label>Bill Amount</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="bill" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tip Percentage</label>
+      <div class="tip-btns">
+        <button class="tip-btn" data-val="10">10%</button>
+        <button class="tip-btn active" data-val="15">15%</button>
+        <button class="tip-btn" data-val="18">18%</button>
+        <button class="tip-btn" data-val="20">20%</button>
+        <button class="tip-btn" data-val="25">25%</button>
+      </div>
+      <div class="input-wrap no-prefix">
+        <input type="number" id="tip" value="15" min="0" max="100" step="1" placeholder="Custom %">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Number of People</label>
+      <div class="stepper">
+        <button class="step-btn" id="minus">−</button>
+        <div id="peopleVal">1</div>
+        <button class="step-btn" id="plus">+</button>
+      </div>
+    </div>
+
+    <div class="results">
+      <div class="result-row">
+        <span class="result-label">Tip Amount</span>
+        <span class="result-val" id="tipAmt">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Total Bill</span>
+        <span class="result-val" id="totalBill">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Tip Per Person</span>
+        <span class="result-val" id="tipPer">$0.00</span>
+      </div>
+      <div class="result-row highlight">
+        <span class="result-label">Total Per Person</span>
+        <span class="result-val" id="perPerson">$0.00</span>
+      </div>
+    </div>
+    <button id="resetBtn">↺ Reset</button>
+  </div>
+
+  <!-- Tip Guide -->
+  <h2 class="section-title">How Much to Tip in the US?</h2>
+  <div class="guide-grid">
+    <div class="guide-item"><div class="service">🍽️ Restaurants & Bars</div><div class="amount">15% – 20%</div></div>
+    <div class="guide-item"><div class="service">🚗 Taxi / Rideshare</div><div class="amount">15% – 20%</div></div>
+    <div class="guide-item"><div class="service">💇 Hair, Nails, Spa</div><div class="amount">10% – 20%</div></div>
+    <div class="guide-item"><div class="service">💆 Massage</div><div class="amount">10% – 20%</div></div>
+    <div class="guide-item"><div class="service">🛵 Food Delivery</div><div class="amount">15% – 20%</div></div>
+    <div class="guide-item"><div class="service">🏨 Hotel Room Service</div><div class="amount">15% – 20% (if not included)</div></div>
+    <div class="guide-item"><div class="service">🛏️ Hotel Housekeeping</div><div class="amount">$1 – $2 per night</div></div>
+    <div class="guide-item"><div class="service">🚌 Shuttle / Parking</div><div class="amount">$1 – $3</div></div>
+    <div class="guide-item"><div class="service">📦 Movers / Delivery</div><div class="amount">$5 – $20 per person</div></div>
+    <div class="guide-item"><div class="service">🔧 Plumber / Handyman</div><div class="amount">Not expected, or $5 – $20</div></div>
+    <div class="guide-item"><div class="service">🗺️ Tour Guides</div><div class="amount">$1 – $5 per person</div></div>
+    <div class="guide-item"><div class="service">🚗 Mechanic</div><div class="amount">Not expected, or a few dollars</div></div>
+  </div>
+
+  <!-- How to calculate -->
+  <div class="card prose">
+    <h2>How to Calculate a Tip in Your Head</h2>
+    <p>No phone? No problem. Here's a quick mental math trick used by most Americans:</p>
+    <p>To find <strong>10%</strong>, just move the decimal one place to the left. On a $85 bill, 10% = $8.50. For <strong>20%</strong>, double that: $17.00. For <strong>15%</strong>, take 10% and add half: $8.50 + $4.25 = $12.75.</p>
+
+    <div class="example-box">
+      <div class="ex-title">Example — $64.00 bill</div>
+      10% → <span>$6.40</span><br>
+      15% → $6.40 + $3.20 = <span>$9.60</span><br>
+      20% → $6.40 × 2 = <span>$12.80</span><br>
+      25% → $6.40 × 2 + $6.40 / 2 = <span>$16.00</span>
+    </div>
+
+    <h2>Should You Tip Before or After Tax?</h2>
+    <p>Most Americans tip on the <strong>pre-tax subtotal</strong>. The difference is small on a typical bill, but in high-tax states like New York or California it can add up. Either approach is acceptable — what matters more is the percentage you choose.</p>
+
+    <h2>What Is a Good Tip at a Restaurant?</h2>
+    <p>The US standard is <strong>15%–20%</strong> for sit-down service. 20% has become the new normal in many cities. For counter service or fast casual, tipping is optional — $1–$2 is fine if you choose to. Some restaurants automatically add an 18%–20% gratuity for groups of 6 or more, so always check the bill first.</p>
+
+    <h2>Why Do Americans Tip?</h2>
+    <p>In the US, tipped workers like restaurant servers often earn a lower base wage, with tips making up the majority of their actual income. This system is different from most of the world — which is why tipping culture in America is stronger and more expected than almost anywhere else.</p>
+  </div>
+
+  <!-- Tipping around the world -->
+  <h2 class="section-title">Tipping Around the World</h2>
+  <div class="world-grid">
+    <div class="world-card">
+      <div class="flag">🇺🇸</div>
+      <div class="country">United States</div>
+      <div class="desc">15%–20% at restaurants is expected. Tipping is a significant part of service workers' income.</div>
+    </div>
+    <div class="world-card">
+      <div class="flag">🇪🇸</div>
+      <div class="country">Spain</div>
+      <div class="desc">Not expected, but appreciated. 5%–10% at nicer restaurants. Leaving small change at cafes is common.</div>
+    </div>
+    <div class="world-card">
+      <div class="flag">🇫🇷</div>
+      <div class="country">France</div>
+      <div class="desc">Service charge is usually included. An extra 5%–10% is a nice gesture for good service.</div>
+    </div>
+    <div class="world-card">
+      <div class="flag">🇯🇵</div>
+      <div class="country">Japan</div>
+      <div class="desc">Tipping is considered rude. Excellent service is the standard expectation, not something you pay extra for.</div>
+    </div>
+    <div class="world-card">
+      <div class="flag">🇬🇧</div>
+      <div class="country">United Kingdom</div>
+      <div class="desc">10%–12.5% at restaurants. Not expected at pubs. Check if service charge is already added.</div>
+    </div>
+    <div class="world-card">
+      <div class="flag">🇦🇪</div>
+      <div class="country">Dubai / UAE</div>
+      <div class="desc">Tip is often automatically added to the bill. An extra 10% in cash is always appreciated.</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <button class="faq-q">Is it rude not to tip in the US? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Yes, in most service situations — especially at sit-down restaurants — not tipping is considered rude. Servers rely on tips as a core part of their wages. If you had a genuinely bad experience, 10% is a signal something went wrong rather than leaving nothing.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do you tip on the total including tax? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Most people tip on the pre-tax subtotal, though tipping on the full amount is also acceptable. The difference on an average restaurant bill is usually under $1–$2, so either approach is fine.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What if the service was bad? <span class="faq-icon">+</span></button>
+      <div class="faq-a">If your poor experience was the server's fault, lowering the tip to 10% is a reasonable signal. If it was a kitchen or management issue, the server often has no control — leaving a standard tip and speaking to a manager is a better approach.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Should I tip on takeout orders? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Tipping on takeout is optional in the US. If someone spent significant time putting your order together, $1–$2 is a kind gesture. For large or complex takeout orders, 10% is reasonable.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do I tip when splitting a bill unevenly? <span class="faq-icon">+</span></button>
+      <div class="faq-a">The easiest approach is for each person to calculate their own share of the subtotal, then each add the same tip percentage on top of their portion. This way everyone pays a fair share of both the bill and the tip.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 CalcNest &nbsp;·&nbsp; <a href="#">About</a> <a href="#">Privacy Policy</a> <a href="#">Contact</a></p>
+</footer>
+
+<script>
+  // Theme toggle
+  const html = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  toggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    label.textContent = isDark ? '☀️' : '🌙';
+  });
+
+  // Calculator
+  const billEl = document.getElementById('bill');
+  const tipEl = document.getElementById('tip');
+  const tipBtns = document.querySelectorAll('.tip-btn');
+  const tipAmtEl = document.getElementById('tipAmt');
+  const totalEl = document.getElementById('totalBill');
+  const tipPerEl = document.getElementById('tipPer');
+  const perEl = document.getElementById('perPerson');
+  const peopleVal = document.getElementById('peopleVal');
+  let people = 1;
+
+  const fmt = n => '$' + n.toFixed(2);
+
+  function calc() {
+    const bill = parseFloat(billEl.value) || 0;
+    const tip = parseFloat(tipEl.value) || 0;
+    const tipAmt = bill * tip / 100;
+    const total = bill + tipAmt;
+    tipAmtEl.textContent = fmt(tipAmt);
+    totalEl.textContent = fmt(total);
+    tipPerEl.textContent = fmt(tipAmt / people);
+    perEl.textContent = fmt(total / people);
+  }
+
+  tipBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tipBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      tipEl.value = btn.dataset.val;
+      calc();
+    });
+  });
+
+  tipEl.addEventListener('input', () => {
+    tipBtns.forEach(b => b.classList.remove('active'));
+    calc();
+  });
+  billEl.addEventListener('input', calc);
+
+  document.getElementById('plus').addEventListener('click', () => {
+    people = Math.min(people + 1, 99);
+    peopleVal.textContent = people;
+    calc();
+  });
+  document.getElementById('minus').addEventListener('click', () => {
+    people = Math.max(people - 1, 1);
+    peopleVal.textContent = people;
+    calc();
+  });
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    billEl.value = '';
+    tipEl.value = 15;
+    people = 1;
+    peopleVal.textContent = 1;
+    tipBtns.forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-val="15"]').classList.add('active');
+    calc();
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  calc();
+</script>
+</body>
+</html>
