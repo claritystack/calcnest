@@ -2,16 +2,16 @@ title: CalcNest
 description: Free online calculators for everyday US finance and lifestyle needs.
 url: "https://claritystack.github.io"
 baseurl: "/calcnest"
+
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
 markdown: kramdown
 permalink: /calcnest/blog/:slug/
+
 lang: en
 timezone: America/New_York
-
-collections_dir: blog
 
 collections:
   calculators:
