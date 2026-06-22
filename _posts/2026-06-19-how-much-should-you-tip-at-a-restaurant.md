@@ -58,5 +58,5 @@ date: 2026-06-19
   <p>Tipping on takeout orders is optional and generally lighter than sit-down service — $1 to $2, or around 10% for larger or more complex orders, is reasonable. Someone still assembled and packaged your order, even if no one waited on your table.</p>
 
   <h2>Skip the Mental Math</h2>
-  <p>If you'd rather not work any of this out by hand at the table, our <a href="{{ site.baseurl }}/tip-calculator/">free tip calculator</a> handles it instantly — tip amount, total, and an even split between everyone at the table, all in a few seconds.</p>
+  <p>If you'd rather not work any of this out by hand at the table, our <a href="{{ site.baseurl }}/tip-calculator/" target="_blank">free tip calculator</a> handles it instantly — tip amount, total, and an even split between everyone at the table, all in a few seconds.</p>
 </div>
