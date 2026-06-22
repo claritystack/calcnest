@@ -15,7 +15,7 @@ description: "Free, fast, and accurate online calculators for finance, health, a
   <p class="hub-section-title">{{ cat.name }}</p>
   <div class="calc-grid">
     {% for calc in cat.items %}
-    <a href="{{ site.baseurl }}{{ calc.url }}" class="calc-card">
+    <a href="{{ site.baseurl }}{{ calc.url }}" target="_blank" class="calc-card">
       <div class="icon">{{ calc.icon }}</div>
       <div class="name">{{ calc.name }}</div>
       <div class="desc">{{ calc.card_desc }}</div>
