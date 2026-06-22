@@ -40,5 +40,5 @@ date: 2026-06-18
   <p>Technically no — tipping is voluntary in the US. But in practice, not tipping a restaurant server is considered rude and leaves them significantly underpaid given the US wage structure for tipped workers. For other services where tipping is less expected (plumbers, mechanics, etc.), it's a genuine bonus rather than an obligation.</p>
 
   <h2>Use Our Free Tip Calculator</h2>
-  <p>Don't want to do the math yourself? Our <a href="{{ site.baseurl }}/tip-calculator/">free tip calculator</a> handles the calculation instantly — including splitting the bill between multiple people.</p>
+  <p>Don't want to do the math yourself? Our <a href="{{ site.baseurl }}/tip-calculator/" target="_blank">free tip calculator</a> handles the calculation instantly — including splitting the bill between multiple people.</p>
 </div>
