@@ -1,12 +1,28 @@
 ---
 layout: default
 title: "Contact"
-description: "Get in touch with the CalcNest team."
+description: "Get in touch with the JustCalcIt team."
 ---
 
 <div class="simple-page">
   <h1>Contact</h1>
   <p>Have a suggestion for a new calculator, spotted an error, or just want to say hello? We'd love to hear from you.</p>
-  <p>Email us at: <a href="mailto:hello@justcalcit.online">hello@justcalcit.online</a></p>
-  <p>We typically respond within 1–2 business days.</p>
+
+  <form class="contact-form" action="https://formspree.io/f/maqgynok" method="POST">
+    <div class="field">
+      <label>Your Name</label>
+      <input type="text" name="name" required>
+    </div>
+    <div class="field">
+      <label>Your Email</label>
+      <input type="email" name="email" required>
+    </div>
+    <div class="field">
+      <label>Message</label>
+      <textarea name="message" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="reset-btn contact-submit">Send Message</button>
+  </form>
+
+  <p style="margin-top:24px;">Or email us directly at: <a href="mailto:hello@justcalcit.online">hello@justcalcit.online</a></p>
 </div>
