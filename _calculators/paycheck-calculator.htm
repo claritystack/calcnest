@@ -1,0 +1,137 @@
+---
+layout: calculator
+title: "Paycheck Calculator – Calculate Your Take-Home Pay"
+description: "Free 2026 paycheck calculator. Estimate your take-home pay after federal tax, state tax, and FICA based on your salary, filing status, and state."
+icon: "💵"
+name: "Paycheck Calculator"
+card_desc: "Estimate your take-home pay after federal, state, and FICA taxes."
+category: "Finance"
+---
+
+<div class="calc-page">
+
+  <div class="calc-hero">
+    <h1>Paycheck Calculator</h1>
+    <p>Estimate your take-home pay after federal tax, state tax, and FICA — based on 2026 tax rates.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="field">
+      <label>Pay Type</label>
+      <div class="tip-btns" id="payTypeBtns">
+        <button class="tip-btn active" data-val="salary">Annual Salary</button>
+        <button class="tip-btn" data-val="hourly">Hourly Wage</button>
+      </div>
+    </div>
+
+    <div class="field" id="salaryField">
+      <label>Annual Salary</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="salaryInput" placeholder="60000" min="0" step="100">
+      </div>
+    </div>
+
+    <div class="field" id="hourlyField" style="display:none;">
+      <label>Hourly Wage</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="hourlyInput" placeholder="25.00" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="field" id="hoursField" style="display:none;">
+      <label>Hours Per Week</label>
+      <div class="input-wrap no-prefix">
+        <input type="number" id="hoursInput" value="40" min="1" max="80" step="1">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Pay Frequency</label>
+      <select id="payFrequency" class="calc-select">
+        <option value="52">Weekly (52/yr)</option>
+        <option value="26" selected>Biweekly (26/yr)</option>
+        <option value="24">Semi-Monthly (24/yr)</option>
+        <option value="12">Monthly (12/yr)</option>
+        <option value="1">Annual</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Filing Status</label>
+      <select id="filingStatus" class="calc-select">
+        <option value="single" selected>Single</option>
+        <option value="mfj">Married Filing Jointly</option>
+        <option value="hoh">Head of Household</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>State</label>
+      <select id="stateSelect" class="calc-select">
+        <option value="TX">Texas (no state income tax)</option>
+        <option value="FL">Florida (no state income tax)</option>
+        <option value="NV">Nevada (no state income tax)</option>
+        <option value="WA">Washington (no tax on wages)</option>
+        <option value="CA">California</option>
+        <option value="NY" selected>New York</option>
+        <option value="other">Other state (coming soon)</option>
+      </select>
+    </div>
+
+    <div class="results" id="paycheckResults">
+      <div class="result-row">
+        <span class="result-label">Gross Pay (per period)</span>
+        <span class="result-val" id="grossPerPeriod">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Federal Income Tax</span>
+        <span class="result-val" id="fedTax">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">State Income Tax</span>
+        <span class="result-val" id="stateTax">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Social Security (6.2%)</span>
+        <span class="result-val" id="ssTax">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Medicare (1.45%)</span>
+        <span class="result-val" id="medTax">$0.00</span>
+      </div>
+      <div class="result-row highlight">
+        <span class="result-label">Take-Home Pay (per period)</span>
+        <span class="result-val" id="takeHome">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Take-Home Pay (annual)</span>
+        <span class="result-val" id="takeHomeAnnual">$0.00</span>
+      </div>
+    </div>
+
+    <p id="otherStateNote" style="display:none; color:var(--text3); font-size:0.85rem; margin-top:-8px; margin-bottom:16px;">
+      We haven't added accurate tax data for this state yet, so state tax is shown as $0. We're working on covering more states soon.
+    </p>
+
+    <button class="reset-btn" id="resetBtn">↺ Reset</button>
+  </div>
+
+  <h2 class="section-title">How This Calculator Works</h2>
+  <div class="card prose">
+    <p>This calculator estimates your take-home pay using 2026 federal tax brackets, current FICA rates, and state income tax rates for the states currently supported. It applies the standard deduction for your filing status and calculates federal tax progressively — meaning only the income within each bracket is taxed at that bracket's rate, not your entire income.</p>
+
+    <p><strong>Federal tax</strong> uses the 2026 brackets (10%, 12%, 22%, 24%, 32%, 35%, 37%) based on your filing status, after subtracting the standard deduction ($16,100 single, $32,200 married filing jointly, $24,150 head of household).</p>
+
+    <p><strong>FICA</strong> includes 6.2% Social Security (up to the 2026 wage base of $184,500), 1.45% Medicare (no cap), and an additional 0.9% Medicare tax on income above $200,000 (single/head of household) or $250,000 (married filing jointly).</p>
+
+    <p><strong>State tax</strong> is currently calculated accurately for Texas, Florida, Nevada, Washington (no tax on wages), California, and New York. Other states will show $0 state tax until we add their specific brackets — we're expanding state coverage regularly.</p>
+
+    <p>This is an estimate for general planning purposes, not a substitute for your actual paycheck or a tax professional's calculation. Actual withholding can differ based on pre-tax deductions (401k, health insurance), additional withholding elections, local taxes, and other factors not included here.</p>
+  </div>
+
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/calculators/paycheck.js"></script>
