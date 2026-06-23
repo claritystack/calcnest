@@ -54,7 +54,7 @@ date: 2026-06-22
 
   <p>On paper, this all sounds straightforward. In practice, doing this math by hand for your specific bracket, your specific state, and your specific filing status gets tedious fast — which is honestly the whole reason calculators like this exist in the first place.</p>
 
-  <h2>A quick real example</h2>
+  <h2>How to Calculate Your Net Pay - A quick real example</h2>
 
   <p>Say you're single, earning $70,000 a year, paid biweekly, living in Texas.</p>
 
