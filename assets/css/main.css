@@ -331,6 +331,30 @@ input[type="number"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px 
   .guide-grid { grid-template-columns: 1fr; }
   .world-grid { grid-template-columns: 1fr 1fr; }
 
+  .hamburger { display: flex; }
+
+  nav#mainNav {
+    display: none;
+    position: absolute;
+    top: 100%; right: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    flex-direction: column;
+    padding: 8px;
+    margin-top: 10px;
+    min-width: 180px;
+    box-shadow: var(--shadow);
+    z-index: 200;
+  }
+  nav#mainNav.is-open { display: flex; }
+  nav#mainNav a {
+    margin-left: 0; padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  nav#mainNav a:hover { background: var(--bg3); color: var(--text); }
+
   .footer-inner { flex-direction: column; text-align: center; }
   footer nav a { margin: 0 8px; }
 }
