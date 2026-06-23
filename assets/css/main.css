@@ -30,9 +30,9 @@ header {
 nav a { color: var(--text3); text-decoration: none; font-size: 0.9rem; margin-left: 20px; transition: color 0.2s; }
 nav a:hover { color: var(--text); }
 
-/* Hamburger — always visible, opens dropdown nav */
+/* Hamburger — mobile only */
 .hamburger {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
@@ -49,27 +49,8 @@ nav a:hover { color: var(--text); }
 .hamburger.is-open span:nth-child(2) { opacity: 0; }
 .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-nav#mainNav {
-  display: none;
-  position: absolute;
-  top: 100%; right: 0;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  flex-direction: column;
-  padding: 8px;
-  margin-top: 10px;
-  min-width: 180px;
-  box-shadow: var(--shadow);
-  z-index: 200;
-}
-nav#mainNav.is-open { display: flex; }
-nav#mainNav a {
-  margin-left: 0; padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-}
-nav#mainNav a:hover { background: var(--bg3); color: var(--text); }
+/* Desktop nav: plain inline links */
+nav#mainNav { display: flex; }
 
 /* ── Footer ── */
 footer {
@@ -349,29 +330,6 @@ input[type="number"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px 
   .calc-hero h1 { font-size: 1.8rem; }
   .guide-grid { grid-template-columns: 1fr; }
   .world-grid { grid-template-columns: 1fr 1fr; }
-
-  .hamburger { display: flex; }
-
-  nav#mainNav {
-    display: none;
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    flex-direction: column;
-    padding: 8px 28px 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-  nav#mainNav.is-open { display: flex; }
-  nav#mainNav a {
-    margin-left: 0; padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 1rem;
-  }
-  nav#mainNav a:last-child { border-bottom: none; }
-
-  header { position: relative; }
-  .header-inner { position: relative; }
 
   .footer-inner { flex-direction: column; text-align: center; }
   footer nav a { margin: 0 8px; }
