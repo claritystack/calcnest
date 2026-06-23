@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "How to Calculate Your Net Pay, Step by Step"
+title: "How to Calculate Your Net Pay? Step by Step"
 description: "A simple walkthrough of how net pay actually gets calculated — federal tax, state tax, FICA, and everything in between."
 date: 2026-06-22
 ---
