@@ -95,7 +95,7 @@ date: 2026-06-30
 
   <p>Exactly 40 hours at $25/hour comes out to $1,000 before taxes, which is the standard full-time week most of these numbers assume.</p>
 
-  <h2>5) See your actual number</h2>
+  <h2>See your actual number</h2>
 
   <p>These figures assume a single filer taking the standard deduction — your real take-home shifts based on filing status, dependents, and exactly which state you're in. Plug your numbers into our <a href="{{ site.baseurl }}/paycheck-calculator/" target="_blank">paycheck calculator</a> to see your specific result instead of a general range.</p>
 
