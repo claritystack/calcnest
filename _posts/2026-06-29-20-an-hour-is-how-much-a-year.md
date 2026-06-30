@@ -11,6 +11,9 @@ date: 2026-06-29
   <p>Someone tells you a job pays $20 an hour, and your brain immediately tries to turn that into something more useful — a yearly number, a monthly number, something you can actually compare to bills and rent.</p>
 
   <p>Here's the full breakdown, gross and after taxes.</p>
+  <img loading="lazy" src="https://raw.githubusercontent.com/claritystack/JustCalcIt/main/%2420-thumbnail.webp"
+                        alt="$20 an hour is how much in a year"
+                        style="width:100%; max-width:700px; height:auto; margin:12px 0 20px; display:block;">
 
   <h2>The quick number</h2>
 
